@@ -1,1 +1,1 @@
-# java-image-gallery
+# Java Based Imaged Gallery
