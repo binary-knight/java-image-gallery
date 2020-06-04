@@ -24,6 +24,7 @@ dependencies {
     // This dependency is used by the application.
     implementation platform('software.amazon.awssdk:bom:2.13.20')
     implementation 'software.amazon.awssdk:s3'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }

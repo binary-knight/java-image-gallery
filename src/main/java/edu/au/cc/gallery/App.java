@@ -8,8 +8,8 @@ public class App {
         return "Hello world.";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 //System.out.println(new App().getGreeting());
- S3.demo();
+ DB.demo();
     }
 }
