@@ -23,7 +23,7 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation platform('software.amazon.awssdk:bom:2.13.20')
-    impllementation 'software.amazon.awssdk:s3'
+    implementation 'software.amazon.awssdk:s3'
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
