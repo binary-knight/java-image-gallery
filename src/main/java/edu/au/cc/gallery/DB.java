@@ -11,12 +11,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class DB {
-    private static final String dbURL = "jdbc:postgresql://demo-database-1.c7yjhmuuwbyx.us-east-1.rds.amazonaws.com/image_gallery";
+    private static final String dbURL = "jdbc:postgresql://image-gallery.c7yjhmuuwbyx.us-east-1.rds.amazonaws.com/image_gallery";
 
-    public static Connection connection;	    
+    public static Connection connection;
 
-    private String getPassword() {
+    private JSONObject getSecret() {
+	String s = Secrets.getSecretImageGallery();
+	return new JSONObject(s);
+    }
+
+    /*private String getPassword() {
         try(BufferedReader br = new BufferedReader(new FileReader("/home/ec2-user/.sql-passwd"))) {
 	String result = br.readLine();
 	br.close();
@@ -26,12 +34,17 @@ public class DB {
 	    System.exit(1);
        }
        return null;
+    }*/
+
+    private String getPassword(JSONObject secret) {
+	    return secret.getString("password");
     }
 
     public void connect() throws SQLException {
 	    try {
 	    Class.forName("org.postgresql.Driver");
-	    connection = DriverManager.getConnection(dbURL, "image_gallery", getPassword());
+    	    JSONObject secret = getSecret();
+	    connection = DriverManager.getConnection(dbURL, "image_gallery", getPassword(secret));
 	    } catch (ClassNotFoundException ex) {
 		    ex.printStackTrace();
 		    System.exit(1);
@@ -51,6 +64,12 @@ public ResultSet execute(String query) throws SQLException {
 		  stmt.setString(i+1, values[i]);
 		  stmt.execute();
 	    }
+
+public ResultSet query(String query) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+		return rs;
+	}
 
 
    public void close() throws SQLException {

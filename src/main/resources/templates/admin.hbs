@@ -1,0 +1,18 @@
+<h1> PostgreSQL Admin Interface </h1>
+<p> Main Menu </p>
+
+{{#> adminPage}}
+<p>Current Database Users:</p>
+<ol>
+{{#users}}
+
+<li><a href="/admin/edituser?name={{username}}">{{username}}</a> <button onclick="location.href='/admin/deleteuser?name={{username}}'" type="button">Delete User</button></li> 
+
+{{/users}}
+</ol>
+<br>
+<button onclick="location.href='/admin/createuser'" type="button">Create New User</button><br>
+<br>
+{{/adminPage}}
+
+

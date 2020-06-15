@@ -1,0 +1,11 @@
+<h1> PostgreSQL Admin Interface </h1>
+<p> Deleting User {{name}} </p>
+
+{{#> delete}}
+<h1>Please confirm you wish to delete {{name}} by pressing "Confirm" button below:<br></h1>
+<button onclick="location.href='/admin'" type="button">Cancel</button>&nbsp;
+<button onclick="location.href='/admin/delete-confirm?name={{name}}'" type="button">Confirm</button>
+<br>
+{{/delete}}
+
+

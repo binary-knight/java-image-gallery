@@ -24,7 +24,13 @@ dependencies {
     // This dependency is used by the application.
     implementation platform('software.amazon.awssdk:bom:2.13.20')
     implementation 'software.amazon.awssdk:s3'
+    implementation 'software.amazon.awssdk:secretsmanager'
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    implementation group: 'com.sparkjava', name: 'spark-core', version: '2.8.0'
+    implementation group: 'com.sparkjava', name: 'spark-template-handlebars', version: '2.7.1'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }

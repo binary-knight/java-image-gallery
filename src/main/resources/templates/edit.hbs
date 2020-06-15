@@ -1,0 +1,28 @@
+<h1>PostgreSQL Admin Interface</h1>
+<p> Edit Existing User <p>
+
+{{#> edit-user}}
+<form method="GET" action="/admin/edit-confirm">
+	<table>
+	<tr>
+		<td align="center"><b>Editing {{ name }}</b> </td>
+	</tr>
+        <tr>
+                <td align="right"><label for="name">Username:</label></td>
+                <td align="left"><input type="text" id="name" name="name" value="{{name}}" readonly></td>
+        </tr>
+	<tr>
+		<td align="right"><label for="password">Password:</label></td>
+		<td align="left"><input type="text" id="password" name="password"></td>
+	</tr>
+	<tr>
+		<td align="right"><label for="fullName">Full Name:</label></td>
+		<td align="left"><input type="text" id="fullName" name="fullName"></td>
+	</tr>
+	</table>
+	<input type="submit" value="Save Changes"><br>
+</form><br>
+<br>
+<button onclick="location.href='/admin/deleteuser?name={{name}}'" type="button">DELETE USER</button><br>
+<br>
+{{/edit-user}}

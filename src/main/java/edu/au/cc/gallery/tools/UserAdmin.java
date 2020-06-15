@@ -1,110 +1,93 @@
-package edu.au.cc.gallery.tools;
+package edu.au.cc.gallery;
 
-import edu.au.cc.gallery.DB;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
+import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import java.util.Scanner;
+
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class UserAdmin {
 
-private static DB db;
+        public void addUser(String username, String password, String fullName) throws SQLException {
 
-public static void displayMenu() {
-  System.out.println("\n1. List Users"
-		  + "\n2. Add User"
-		  + "\n3. Edit User"
-		  + "\n4. Delete User"
-		  + "\n5. Quit Program");
-  System.out.print("Selection: ");
-}
+		try {
+                	DB db = new DB();
+                	db.connect();
+                	db.execute("insert into users (username, password, full_name) values (?, ?, ?)", new String[] {username, password, fullName});
+			db.close();
+		} catch (SQLException e) {
+			System.out.println("ERR: User " + username + " already exists in the database!");
+		}
+        }
 
-public static void main() throws SQLException {
-  Scanner sc = new Scanner(System.in);
-  int input = -1;
-  String username = "";
-  String password = "";
-  String full_name = "";
+        public ArrayList<String> listUsers() throws SQLException {
+                ArrayList<String> list = new ArrayList<>();
+                DB db = new DB();
+                db.connect();
+                ResultSet rs = db.execute("select * from users");
 
-  while (input != 5) {
-	  displayMenu();
-          input = sc.nextInt();
-	  sc.nextLine();
-          
-	  switch (input) {
-		  case 1:
-			  DB.listUsers();
-			  break;
-		  case 2:
-			  System.out.println("Adding New User");
-			  System.out.print("Enter Username: ");
-			  username = sc.nextLine();
-			  System.out.print("Enter Password: ");
-			  password = sc.nextLine();
-			  System.out.print("Enter Full Name: ");
-			  full_name = sc.nextLine();
+                while (rs.next()) {
+                        list.add(rs.getString(1));
+                }
 
-			  DB.addUser(username, password, full_name);
-			  System.out.println(username + " added to database.");
-			  break;
-		  case 3:
-			  System.out.println("Editing User, press enter for no change.");
-			  System.out.print("User to edit: ");
-			  username = sc.nextLine();
-			  if (!DB.checkExist(username)) {
-				  System.out.println(username 
-						  + " does not exist.");
-				  break;
-			  } else {
-			  System.out.print("Password for user: ");
-			  password = sc.nextLine();
-			  System.out.print("Full Name for user: ");
-			  full_name = sc.nextLine();
-			  if (password.equals("") && full_name.equals("")) {
-				  System.out.println("No changes made.");
-			  } else {
-			  DB.editUser(username, password, full_name);
-			  }
-			  break;
-			  }
-		  case 4:
-			  System.out.println("Deleting User");
-			  System.out.println("User to delete: ");
-			  username = sc.nextLine();
-			  if (!DB.checkExist(username)) {
-				  System.out.println(username
-						  + " does not exist.");
-				  break;
-			  } else {
-		          System.out.print("Please input user's username again to confirm removal from database: ");
-			  String confirm = sc.nextLine();
-			  if (!confirm.matches(username)) {
-				 System.out.print("Username didn't match, aborting.");
-			  break;
-			  } else {
-				  DB.deleteUser(username);
-				  System.out.print(username + " removed from database.");
-				  break;
-			  }
-			  }
-		  case 5: 
-			  System.out.println("Session Terminated.");
-			  break;
-		  default:
-			  break;
-                          }
+                return list;
+
+        }
 
 
-                       }             
+        public boolean editUser(String username, String password, String fullName) throws SQLException {
 
-          }             
+             try {   
+		DB db = new DB();
+                db.connect();
+                ResultSet rs = db.execute("select * from users where username='"+ username +"'");
+                
+                if (!rs.isBeforeFirst()) {
+                        db.close();
+			System.out.println("User doesn't exist.");
+			return false;
 
+                } else {
+			if (password.isEmpty() && fullName.isEmpty()) {
+
+                                return true;
+
+                        }
+                        else if (password.isEmpty()) {
+                                db.execute("update users set full_name=? where username=?", new String[] {fullName, username});
+                                db.close();
+				return true;
+                        }
+                        else if (fullName.isEmpty()) {
+
+                                db.execute("update users set password=? where username=?", new String[] {password, username});
+                                db.close();
+				return true;
+                        } else {
+
+                                db.execute("update users set password=? , full_name=? where username=?", new String[] {password, fullName, username});
+                                db.close();
+				return true;
+                        }
+                }
+	     } catch (SQLException e) {
+		System.out.println("ERR: Exception in information.");
+		return false;
+	    }
+
+        }
+
+        public void deleteUser(String username) throws SQLException {
+
+              DB db = new DB();
+              db.connect();
+	      db.execute("delete from users where username=?", new String[] {username});
+              db.close();
+        }
 }

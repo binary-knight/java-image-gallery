@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+while [[ ( "${PWD}" != "${HOME}" ) && ! ( -f build.gradle ) ]]; do
+	cd ..
+done
+
+if [[ ! -f build.gradle ]]; then
+	echo "build.gradle not found"
+	exit 1
+
+fi
+
+gradle $*

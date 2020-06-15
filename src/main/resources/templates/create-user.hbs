@@ -1,0 +1,23 @@
+<h1> PostgreSQL Admin Interface </h1><br>
+<p> Create New User </p>
+
+{{#> create-user}}
+<form method="GET" action="/admin/create-confirm">
+	<table>
+	<tr>
+		<td align="right"><label for="name">Username:</label></td>
+		<td align="left"><input type="text" id="name" name="name" required></td>
+	</tr>
+	<tr>
+		<td align="right"><label for="password">Password:</label></td>
+		<td align="left"><input type="text" id="password" name="password"></td>
+	</tr>
+	<tr>
+		<td align="right"><label for="fullName">Full Name:</label></td>
+		<td align="left"><input type="text" id="fullName" name="fullName"></td>
+	</tr>
+	</table>
+	<input type="submit" value="Create User"><br>
+</form><br>
+{{/create-user}}
+
