@@ -10,9 +10,9 @@ chown -R ec2-user:ec2-user java-image-gallery
 su -c "sh /home/ec2-user/java-image-gallery/gradle-src/install-gradle.sh" ec2-user
 su -c "source .bashrc" ec2-user
 
-CONFIG_BUCKET="s3://edu.au.cc.image-gallery-knight-config"
-aws s3 cp $(CONFIG_BUCKET)/nginx.conf /etc/nginx/nginx.conf
-aws s3 cp $(CONFIG_BUCKET)/default.d/image_gallery.conf /etc/nginx/default.d/image_gallery.conf
+export CONFIG_BUCKET="s3://edu.au.cc.image-gallery-knight-config"
+aws s3 cp $(CONFIG_BUCKET)/nginx/nginx.conf /etc/nginx/nginx.conf
+aws s3 cp $(CONFIG_BUCKET)/nginx/default.d/image_gallery.conf /etc/nginx/default.d/image_gallery.conf
 
 systemctl stop postfix
 systemctl disable postfix
