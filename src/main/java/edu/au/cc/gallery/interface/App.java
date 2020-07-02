@@ -40,6 +40,7 @@ public class App {
 		return new HandlebarsTemplateEngine().render(new ModelAndView(model, "admin.hbs"));
 		});
 
+	
 /* Actions */
 
         get("/admin/createuser", (req, res) -> {
@@ -111,7 +112,8 @@ public class App {
         get("/admin/error", (req, res) -> {
                 Map<String, Object> model = new HashMap<String, Object>();
                 return new HandlebarsTemplateEngine().render(new ModelAndView(model, "error.hbs"));
-                });
+				});
 
-    }
+	}
+
 }
